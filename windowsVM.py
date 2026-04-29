@@ -44,7 +44,7 @@ compute_client.virtual_machine_extensions.begin_create_or_update(
         "virtual_machine_extension_type": "CustomScriptExtension",
         "type_handler_version": "1.10",
         "settings": {
-            "fileUris": ["https://github.com/mistahbellz/IIS_php_VMLab/blob/main/IIS_php.ps1"],
+            "fileUris": ["https://raw.githubusercontent.com/mistahbellz/IIS_php_VMLab/main/IIS_php.ps1"],
             "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File IIS_php.ps1"
         }
     }
