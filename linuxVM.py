@@ -30,7 +30,7 @@ compute_client.virtual_machines.begin_create_or_update(
     "linux-vm",
     {
         "location": LOCATION,
-        "hardware_profile": {"vm_size": "Standard_DC1ds_v3"},
+        "hardware_profile": {"vm_size": "Standard_FX2ms_v2"},
         "storage_profile": {
             "image_reference": {
                 "publisher": "Canonical",
