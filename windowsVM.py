@@ -12,7 +12,7 @@ compute_client.virtual_machines.begin_create_or_update(
     "windows-vm",
     {
         "location": LOCATION,
-        "hardware_profile": {"vm_size": "Standard_B1s"},
+        "hardware_profile": {"vm_size": "Standard_NV4as_v4"},
         "storage_profile": {
             "image_reference": {
                 "publisher": "MicrosoftWindowsServer",
@@ -41,7 +41,7 @@ compute_client.virtual_machine_extensions.begin_create_or_update(
     {
         "location": LOCATION,
         "publisher": "Microsoft.Compute",
-        "virtual_machine_extension_type": "CustomScriptExtension",
+        "type": "CustomScriptExtension",
         "type_handler_version": "1.10",
         "settings": {
             "fileUris": ["https://raw.githubusercontent.com/mistahbellz/IIS_php_VMLab/main/IIS_php.ps1"],

@@ -41,8 +41,8 @@ compute_client.virtual_machines.begin_create_or_update(
         },
        "os_profile": {
                         "computer_name": "linuxvm",
-                        "admin_username": "azureuser",
-                        "admin_password": "YourPassword123!",
+                        "admin_username": "miztahbellz",
+                        "admin_password": "password123!",
                         "custom_data": custom_data,
                         "linux_configuration": {
                             "disable_password_authentication": False

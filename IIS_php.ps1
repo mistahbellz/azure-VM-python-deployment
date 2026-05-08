@@ -1,8 +1,35 @@
-Install-WindowsFeature -name Web-Server -IncludeManagementTools
+# Install IIS + the CGI feature
+Install-WindowsFeature -name Web-Server, Web-CGI -IncludeManagementTools
 
-# Install PHP
-Invoke-WebRequest -Uri https://windows.php.net/downloads/releases/php-8.2.0-Win32-vs16-x64.zip -OutFile C:\php.zip
-Expand-Archive -Path C:\php.zip -DestinationPath C:\php
+# To Download the NTS
+$phpZip = "C:\php.zip"
+$phpDir = "C:\php"
+Invoke-WebRequest -Uri "https://php.net" -OutFile $phpZip
 
-# Create PHP test page
-Set-Content -Path "C:\inetpub\wwwroot\index.php" -Value "<?php echo 'Hello from Windows VM via Azure Automation'; ?>"
+# Extract PHP
+if (!(Test-Path $phpDir)) { New-Item -ItemType Directory -Path $phpDir }
+Expand-Archive -Path $phpZip -DestinationPath $phpDir -Force
+
+# PHP file handler in IIS server
+Import-Module WebAdministration
+New-WebHandler -Name "PHP_via_FastCGI" `
+    -Path "*.php" `
+    -Verb "*" `
+    -Modules "FastCgiModule" `
+    -ScriptProcessor "$phpDir\php-cgi.exe" `
+    -ResourceType "Either"
+
+# Set index.php as homepage
+Add-WebConfigurationProperty -pspath 'MACHINE/WEBROOT/APPHOST' `
+    -filter "system.webServer/defaultDocument/files" `
+    -name "." -value @{value = 'index.php' }
+
+# PHP test file
+$content = "<?php echo '<h1>Hello from Windows VM via Azure Automation</h1>'; phpinfo(); ?>"
+Set-Content -Path "C:\inetpub\wwwroot\index.php" -Value $content
+
+
+Remove-Item "C:\inetpub\wwwroot\iisstart.htm" -Force
+
+# Restart IIS to apply all changes
+Restart-Service W3SVC
