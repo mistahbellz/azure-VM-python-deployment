@@ -11,6 +11,8 @@ client.network_security_groups.begin_create_or_update(
     {
         "location": LOCATION,
         "security_rules": [
+
+            # Allow HTTP
             {
                 "name": "Allow-HTTP",
                 "protocol": "Tcp",
@@ -21,11 +23,36 @@ client.network_security_groups.begin_create_or_update(
                 "access": "Allow",
                 "priority": 1000,
                 "direction": "Inbound"
+            },
+
+            # Allow SSH
+            {
+                "name": "Allow-SSH",
+                "protocol": "Tcp",
+                "source_port_range": "*",
+                "destination_port_range": "22",
+                "source_address_prefix": "*",
+                "destination_address_prefix": "*",
+                "access": "Allow",
+                "priority": 1010,
+                "direction": "Inbound"
+            },
+
+            # Allow RDP
+            {
+                "name": "Allow-RDP",
+                "protocol": "Tcp",
+                "source_port_range": "*",
+                "destination_port_range": "3389",
+                "source_address_prefix": "*",
+                "destination_address_prefix": "*",
+                "access": "Allow",
+                "priority": 1020,
+                "direction": "Inbound"
             }
         ]
     }
 ).result()
 
-print("✅ NSG Created")
-
+print("✅ NSG Updated")
 
